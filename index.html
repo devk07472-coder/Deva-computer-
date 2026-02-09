@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deva Computer Institute</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            margin: 0; padding: 0; 
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%); 
+            color: #2d3436; scroll-behavior: smooth; overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- Floating Bubbles --- */
+        .bubbles { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; pointer-events: none; }
+        .bubble {
+            position: absolute; background: rgba(52, 152, 219, 0.2); border-radius: 50%;
+            animation: floatUp 15s infinite ease-in forwards; bottom: -150px; opacity: 0;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 0; }
+            5% { opacity: 1; }
+            100% { transform: translateY(-1200px); opacity: 0; }
+        }
+
+        /* --- Header & Logo Section --- */
+        header { 
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); 
+            color: white; padding: 40px 20px; text-align: center; position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .logo-container {
+            width: 150px; height: 150px; background: white; border-radius: 50%;
+            margin: 0 auto 10px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            box-shadow: 0 0 30px rgba(255,255,255,0.4);
+            border: 3px solid #3498db;
+        }
+
+        .dc-wrap { display: flex; align-items: center; justify-content: center; }
+        .d-icon { font-size: 55px; font-weight: 900; color: #1e3c72; line-height: 1; }
+        .c-icon { font-size: 55px; font-weight: 800; color: #3498db; margin-left: -5px; line-height: 1; position: relative; }
+        .c-icon::after { content: '🧠'; font-size: 22px; position: absolute; top: -5px; right: -12px; }
+
+        .logo-text-main { font-size: 22px; font-weight: 800; color: #1e3c72; margin-top: -5px; }
+        .logo-text-sub { font-size: 8px; font-weight: 700; color: #7f8c8d; letter-spacing: 0.5px; }
+
+        /* Menu Icon */
+        .menu-icon { position: absolute; left: 20px; top: 30px; cursor: pointer; z-index: 101; }
+        .menu-icon span { width: 30px; height: 4px; background: white; display: block; margin: 5px 0; border-radius: 2px; }
+
+        /* Sidebar */
+        .sidebar { height: 100%; width: 0; position: fixed; z-index: 200; top: 0; left: 0; background-color: rgba(0,0,0,0.95); overflow-x: hidden; transition: 0.5s; padding-top: 80px; }
+        .sidebar a { padding: 15px 30px; text-decoration: none; font-size: 1.2rem; color: #ecf0f1; display: block; transition: 0.3s; }
+        .sidebar a:hover { background: #3498db; padding-left: 45px; }
+
+        /* --- Main Content --- */
+        .container { padding: 30px; max-width: 800px; margin: auto; min-height: 400px; }
+        
+        .course-list { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+        .course-btn { 
+            padding: 20px; font-size: 1.1rem; cursor: pointer; border: none; 
+            background: white; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            display: flex; justify-content: space-between; align-items: center;
+            transition: 0.3s; font-weight: 600; color: #2c3e50; border-left: 6px solid #1e3c72;
+        }
+        .course-btn:hover { background: #1e3c72; color: white; transform: translateX(10px); }
+
+        /* Details & Form (Visible only when clicked) */
+        #course-details, #form-section { 
+            display: none; background: white; padding: 30px; margin-top: 25px; 
+            border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            text-align: left; animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .btn-action { background: #27ae60; color: white; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; }
+
+        /* --- Footer (Address & Description) --- */
+        footer { 
+            background: #1e3c72; color: #ecf0f1; padding: 50px 20px; margin-top: 100px; 
+            text-align: left; position: relative; z-index: 10;
+        }
+        .footer-content { max-width: 1000px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; }
+        .footer-section h3 { color: #3498db; border-bottom: 2px solid #3498db; display: inline-block; margin-bottom: 15px; }
+        .footer-section p { font-size: 0.95rem; line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+<div class="bubbles"></div>
+
+<div id="mySidebar" class="sidebar">
+    <a href="javascript:void(0)" style="font-size: 35px; text-align: right;" onclick="closeNav()">&times;</a>
+    <a href="#" onclick="location.reload()">🏠 Home</a>
+    <a href="javascript:void(0)" onclick="toggleForm()">📝 Student Registration</a>
+    <a href="#" onclick="alert('Coming Soon!')">🎓 Exam Form</a>
+</div>
+
+<header>
+    <div class="menu-icon" onclick="openNav()"><span></span><span></span><span></span></div>
+    
+    <div class="logo-container">
+        <div class="dc-wrap"><span class="d-icon">D</span><span class="c-icon">C</span></div>
+        <div class="logo-text-main">DEVA</div>
+        <div class="logo-text-sub">COMPUTER INSTITUTE</div>
+    </div>
+
+    <h1>💻DEVA COMPUTER INSTITUTE💻</h1>
+    <p>PROFESSIONAL COMPUTER EDUCATION FOR A BRIGHT FUTURE</p>
+</header>
+
+<div class="container">
+    <h2 style="text-align: center;">Select a Course</h2>
+    <div class="course-list">
+       <button class="course-btn" onclick="showDetails('DCA', '₹14,000', '1 Year', 'Complete Basic, MS Office, Tally, Photoshop,and Internet.')">1. Diploma in Computer (DCA) <span>➜</span></button>
+<button class="course-btn" onclick="showDetails('PGDCA', '₹16,500', '1 Year', 'C, C++, Java, Web Design, Database Management, and Networking.')">2. Post Graduate Diploma (PGDCA) <span>➜</span></button>
+     <button class="course-btn" onclick="showDetails('ADCA', '₹12,000', '1 Year', 'e, MS Office, Tally, Photoshop, CorelDraw, and Internet.')">3. Advanced Diploma in Computer (ADCA) <span>➜</span></button>
+<button class="course-btn" onclick="showDetails('PGDRD', '₹16,000', '1 Year', 'IT in Rural Development, E-Governance, and Social Sector Computing.')">4. PG Diploma In Rural Development (PGDRD) <span>➜</span></button>
+<button class="course-btn" onclick="showDetails('TALLY PRIME', '₹8,000', '6 Month', 'Output Type, Input Type, Salary Payment, Types Of GST, SGST,CGST,IGST, and Debit, Credit.')">5. Tally Prime With GST (TALLY PRIME) <span>➜</span></button>
+</div>
+
+    <div id="course-details">
+        <h2 id="c-name" style="color:#1e3c72; margin-top:0;"></h2>
+        <p><strong>Course Fees:</strong> <span id="c-fees" style="color:#27ae60; font-weight:bold;"></span></p>
+        <p><strong>Duration:</strong> <span id="c-dur"></span></p>
+        <p><strong>Syllabus:</strong> <span id="c-desc"></span></p>
+        <button onclick="toggleForm()" class="btn-action" style="background:#3498db;">Addmission for this Course</button>
+    </div>
+
+    <div id="form-section">
+        <h2 style="text-align: center;">Admission Form</h2>
+        <input type="text" id="s_name" placeholder="Student  Name" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ddd; border-radius:8px;">
+<input type="text" id="s_name" placeholder="Father's Name" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ddd; border-radius:8px;">
+<input type="text" id="s_name" placeholder="Address" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ddd; border-radius:8px;">
+        <input type="tel" id="s_phone" placeholder="WhatsApp Number" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ddd; border-radius:8px;">
+        <select id="s_course" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ddd; border-radius:8px;">
+            <option>DCA</option>
+            <option>PGDCA</option>
+<option>ADCA</option>
+            <option>PGDRD</option>
+<option>TALLY PRIME</option>
+        </select>
+        <button type="button" onclick="sendToWhatsApp()" class="btn-action">Submit</button>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>About Deva Institute</h3>
+            <p>Deva Computer Institute is a premier education center dedicated to providing high-quality IT training. We focus on practical skills to help students get job-ready in the modern digital world.</p>
+        </div>
+        <div class="footer-section">
+            <h3>Contact Address</h3>
+            <p>📍 Dandkarwan, 11 Nomber, Ramkola Road<br>Chattisgarh, Surajpur -497229 </p>
+            <p>📞 Phone/WhatsApp: +91 8435725294<br>📧 Devk07472@gmail.com</p>
+        </div>
+    </div>
+    <div style="text-align:center; margin-top:30px; opacity:0.6; font-size:0.9rem; border-top:1px solid #444; padding-top:20px;">
+        &copy; 2026 DEVA Computer Institute. All Rights Reserved.
+    </div>
+</footer>
+
+<script>
+    // Sidebar Control
+    function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
+    function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
+
+    // Show Course Details
+    function showDetails(name, fees, dur, desc) {
+        document.getElementById('form-section').style.display = 'none';
+        let box = document.getElementById('course-details');
+        box.style.display = 'block';
+        document.getElementById('c-name').innerText = name;
+        document.getElementById('c-fees').innerText = fees;
+        document.getElementById('c-dur').innerText = dur;
+        document.getElementById('c-desc').innerText = desc;
+        box.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Toggle Registration Form
+    function toggleForm() {
+        closeNav();
+        document.getElementById('course-details').style.display = 'none';
+        let form = document.getElementById('form-section');
+        form.style.display = 'block';
+        form.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // WhatsApp Notification
+    function sendToWhatsApp() {
+        let name = document.getElementById('s_name').value
+        let phone = document.getElementById('s_phone').value;
+        let course = document.getElementById('s_course').value;
+        let myNumber = "918435725294"; // <--- APNA NUMBER YAHAN DAALEIN
+
+        if(name == "" || phone == "") { alert("Details bhariye!"); return; }
+
+        let msg = `*NEW ADMISSION*%0A*Student Name:* ${name}%0A*Father Name:* ${name}%0A*Address:* ${name}%0A*Contact Number:* ${phone}%0A*Course:* ${course}`;
+        window.open(`https://wa.me/${myNumber}?text=${msg}`, '_blank');
+    }
+
+    // Floating Bubbles
+    function createBubble() {
+        const container = document.querySelector('.bubbles');
+        const b = document.createElement('div');
+        b.classList.add('bubble');
+        const size = Math.random() * 60 + 20;
+        b.style.width = b.style.height = size + 'px';
+        b.style.left = Math.random() * 100 + '%';
+        b.style.animationDuration = (Math.random() * 10 + 8) + 's';
+        container.appendChild(b);
+        setTimeout(() => b.remove(), 15000);
+    }
+    setInterval(createBubble, 1500);
+</script>
+
+</body>
+</html>
