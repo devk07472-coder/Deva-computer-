@@ -27,7 +27,7 @@
             100% { transform: translateY(-1200px); opacity: 0; }
         }
 
-        /* --- Header & Logo Section --- */
+        /* --- Header & Logo --- */
         header { 
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); 
             color: white; padding: 40px 20px; text-align: center; position: relative;
@@ -38,8 +38,7 @@
             width: 150px; height: 150px; background: white; border-radius: 50%;
             margin: 0 auto 10px; display: flex; flex-direction: column;
             align-items: center; justify-content: center;
-            box-shadow: 0 0 30px rgba(255,255,255,0.4);
-            border: 3px solid #3498db;
+            box-shadow: 0 0 30px rgba(255,255,255,0.4); border: 3px solid #3498db;
         }
 
         .dc-wrap { display: flex; align-items: center; justify-content: center; }
@@ -50,18 +49,24 @@
         .logo-text-main { font-size: 22px; font-weight: 800; color: #1e3c72; margin-top: -5px; }
         .logo-text-sub { font-size: 8px; font-weight: 700; color: #7f8c8d; letter-spacing: 0.5px; }
 
-        /* Menu Icon */
         .menu-icon { position: absolute; left: 20px; top: 30px; cursor: pointer; z-index: 101; }
         .menu-icon span { width: 30px; height: 4px; background: white; display: block; margin: 5px 0; border-radius: 2px; }
 
         /* Sidebar */
         .sidebar { height: 100%; width: 0; position: fixed; z-index: 200; top: 0; left: 0; background-color: rgba(0,0,0,0.95); overflow-x: hidden; transition: 0.5s; padding-top: 80px; }
-        .sidebar a { padding: 15px 30px; text-decoration: none; font-size: 1.2rem; color: #ecf0f1; display: block; transition: 0.3s; }
+        .sidebar a { padding: 15px 30px; text-decoration: none; font-size: 1.2rem; color: #ecf0f1; display: block; transition: 0.3s; cursor: pointer; }
         .sidebar a:hover { background: #3498db; padding-left: 45px; }
 
-        /* --- Main Content --- */
+        /* --- Content --- */
         .container { padding: 30px; max-width: 800px; margin: auto; min-height: 400px; }
         
+        section { 
+            display: none; background: white; padding: 30px; margin-top: 25px; 
+            border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            text-align: left; animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
         .course-list { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
         .course-btn { 
             padding: 20px; font-size: 1.1rem; cursor: pointer; border: none; 
@@ -71,24 +76,19 @@
         }
         .course-btn:hover { background: #1e3c72; color: white; transform: translateX(10px); }
 
-        /* Details & Form (Visible only when clicked) */
-        #course-details, #form-section { 
-            display: none; background: white; padding: 30px; margin-top: 25px; 
-            border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
-            text-align: left; animation: fadeIn 0.5s ease;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .btn-action { background: #27ae60; color: white; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; font-size: 1rem; }
+        
+        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; box-sizing: border-box; }
 
-        .btn-action { background: #27ae60; color: white; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 15px; }
+        /* Quiz Styles */
+        .question-box { margin-bottom: 20px; padding: 15px; border-bottom: 1px solid #eee; }
+        .question-box p { font-weight: 600; margin-bottom: 10px; color: #1e3c72; }
+        .options label { display: block; background: #f9f9f9; padding: 10px; margin-bottom: 5px; border-radius: 5px; cursor: pointer; transition: 0.2s; }
+        .options label:hover { background: #e0eafc; }
 
-        /* --- Footer (Address & Description) --- */
-        footer { 
-            background: #1e3c72; color: #ecf0f1; padding: 50px 20px; margin-top: 100px; 
-            text-align: left; position: relative; z-index: 10;
-        }
+        footer { background: #1e3c72; color: #ecf0f1; padding: 50px 20px; margin-top: 100px; text-align: left; position: relative; z-index: 10; }
         .footer-content { max-width: 1000px; margin: auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; }
         .footer-section h3 { color: #3498db; border-bottom: 2px solid #3498db; display: inline-block; margin-bottom: 15px; }
-        .footer-section p { font-size: 0.95rem; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -97,116 +97,199 @@
 
 <div id="mySidebar" class="sidebar">
     <a href="javascript:void(0)" style="font-size: 35px; text-align: right;" onclick="closeNav()">&times;</a>
-    <a href="#" onclick="location.reload()">🏠 Home</a>
-    <a href="javascript:void(0)" onclick="toggleForm()">📝 Student Registration</a>
-    <a href="#" onclick="alert('Coming Soon!')">🎓 Exam Form</a>
+    <a onclick="location.reload()">🏠 Home</a>
+    <a onclick="toggleSection('form-section')">📝 Student Registration</a>
+    <a on="toggleSection('exam-section')">🎓 Exam Form</a>
+    <a onclick="toggleSection('test-login-section')">✍️ Online Test</a>
 </div>
 
 <header>
     <div class="menu-icon" onclick="openNav()"><span></span><span></span><span></span></div>
-    
     <div class="logo-container">
         <div class="dc-wrap"><span class="d-icon">D</span><span class="c-icon">C</span></div>
         <div class="logo-text-main">DEVA</div>
         <div class="logo-text-sub">COMPUTER INSTITUTE</div>
     </div>
-
     <h1>💻DEVA COMPUTER INSTITUTE💻</h1>
     <p>PROFESSIONAL COMPUTER EDUCATION FOR A BRIGHT FUTURE</p>
 </header>
 
 <div class="container">
-    <h2 style="text-align: center;">Select a Course</h2>
-    <div class="course-list">
-       <button class="course-btn" onclick="showDetails('DCA', '₹14,000', '1 Year', 'Complete Basic, MS Office, Tally, Photoshop,and Internet.')">1. Diploma in Computer (DCA) <span>➜</span></button>
-<button class="course-btn" onclick="showDetails('PGDCA', '₹16,500', '1 Year', 'C, C++, Java, Web Design, Database Management, and Networking.')">2. Post Graduate Diploma (PGDCA) <span>➜</span></button>
-     <button class="course-btn" onclick="showDetails('ADCA', '₹12,000', '1 Year', 'e, MS Office, Tally, Photoshop, CorelDraw, and Internet.')">3. Advanced Diploma in Computer (ADCA) <span>➜</span></button>
-<button class="course-btn" onclick="showDetails('PGDRD', '₹16,000', '1 Year', 'IT in Rural Development, E-Governance, and Social Sector Computing.')">4. PG Diploma In Rural Development (PGDRD) <span>➜</span></button>
-<button class="course-btn" onclick="showDetails('TALLY PRIME', '₹8,000', '6 Month', 'Output Type, Input Type, Salary Payment, Types Of GST, SGST,CGST,IGST, and Debit, Credit.')">5. Tally Prime With GST (TALLY PRIME) <span>➜</span></button>
-</div>
+    <div id="home-section" style="display: block;">
+        <h2 style="text-align: center;">Select a Course</h2>
+        <div class="course-list">
+            <button class="course-btn" onclick="showDetails('DCA', '₹14,000', '1 Year', 'Complete Basic, MS Office, Tally, Photoshop,and Internet.')">1. Diploma in Computer (DCA) <span>➜</span></button>
+            <button class="course-btn" onclick="showDetails('PGDCA', '₹16,500', '1 Year', 'C, C++, Java, Web Design, Database Management, and Networking.')">2. Post Graduate Diploma (PGDCA) <span>➜</span></button>
+            <button class="course-btn" onclick="showDetails('ADCA', '₹12,000', '1 Year', 'e, MS Office, Tally, Photoshop, CorelDraw, and Internet.')">3. Advanced Diploma in Computer (ADCA) <span>➜</span></button>
+            <button class="course-btn" onclick="showDetails('PGDRD', '₹16,000', '1 Year', 'IT in Rural Development, E-Governance, and Social Sector Computing.')">4. PG Diploma In Rural Development (PGDRD) <span>➜</span></button>
+            <button class="course-btn" onclick="showDetails('TALLY PRIME', '₹8,000', '6 Month', 'Output Type, Input Type, Salary Payment, Types Of GST, SGST,CGST,IGST, and Debit, Credit.')">5. Tally Prime With GST (TALLY PRIME) <span>➜</span></button>
+        </div>
+    </div>
 
-    <div id="course-details">
+    <section id="course-details">
         <h2 id="c-name" style="color:#1e3c72; margin-top:0;"></h2>
         <p><strong>Course Fees:</strong> <span id="c-fees" style="color:#27ae60; font-weight:bold;"></span></p>
         <p><strong>Duration:</strong> <span id="c-dur"></span></p>
         <p><strong>Syllabus:</strong> <span id="c-desc"></span></p>
-        <button onclick="toggleForm()" class="btn-action" style="background:#3498db;">Addmission for this Course</button>
-    </div>
+        <button onclick="toggleSection('form-section')" class="btn-action" style="background:#3498db;">Admission for this Course</button>
+    </section>
 
-    <div id="form-section">
-        <h2 style="text-align: center;">Admission Form</h2>
-        <input type="text" id="s_name" placeholder="Student  Name" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ddd; border-radius:8px;">
-<input type="text" id="s_name" placeholder="Father's Name" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ddd; border-radius:8px;">
-<input type="text" id="s_name" placeholder="Address" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ddd; border-radius:8px;">
-        <input type="tel" id="s_phone" placeholder="WhatsApp Number" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ddd; border-radius:8px;">
-        <select id="s_course" style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #ddd; border-radius:8px;">
-            <option>DCA</option>
-            <option>PGDCA</option>
-<option>ADCA</option>
-            <option>PGDRD</option>
-<option>TALLY PRIME</option>
+    <section id="form-section">
+        <h2 style="text-align: center;">Registration Form</h2>
+        <input type="text" id="adm_name" placeholder="Student Name">
+        <input type="text" id="adm_father" placeholder="Father's Name">
+        <input type="text" id="adm_address" placeholder="Address">
+        <input type="tel" id="adm_phone" placeholder="WhatsApp Number">
+        <select id="adm_course">
+            <option>DCA</option><option>PGDCA</option><option>ADCA</option><option>PGDRD</option><option>TALLY PRIME</option>
         </select>
-        <button type="button" onclick="sendToWhatsApp()" class="btn-action">Submit</button>
-    </div>
+        <button type="button" onclick="sendAdmissionToWA()" class="btn-action">Submit Admission</button>
+    </section>
+
+    <section id="exam-section">
+        <h2 style="text-align: center; color: #1e3c72;">Examination Form 2026</h2>
+        <input type="text" id="ex_name" placeholder="Student Full Name">
+        <input type="text" id="ex_roll" placeholder="Roll Number">
+        <input type="text" id="ex_father" placeholder="Father's Name">
+        <select id="ex_course">
+            <option>DCA</option><option>PGDCA</option><option>ADCA</option><option>PGDRD</option><option>TALLY PRIME</option>
+        </select>
+        <input type="tel" id="ex_phone" placeholder="WhatsApp Number">
+        <button type="button" onclick="sendExamToWA()" class="btn-action" style="background: #e67e22;">Submit Exam Form</button>
+    </section>
+
+    <section id="test-login-section">
+        <h2 style="text-align: center; color: #1e3c72;">Student Online Test</h2>
+        <p style="text-align:center;">Test shuru karne ke liye apni jankari bharein.</p>
+        <input type="text" id="test_name" placeholder="Student Full Name">
+        <input type="text" id="test_father" placeholder="Father's Name">
+        <button type="button" onclick="startTest()" class="btn-action" style="background: #9b59b6;">Start Your Online Test</button>
+    </section>
+
+    <section id="quiz-section">
+        <h2 style="text-align: center; color: #1e3c72;">Computer Quiz (MS Office & Tally)</h2>
+        <div id="questions-container">
+            </div>
+        <button type="button" onclick="submitQuiz()" class="btn-action" style="background: #27ae60;">Submit My Answers</button>
+    </section>
 </div>
 
 <footer>
     <div class="footer-content">
         <div class="footer-section">
             <h3>About Deva Institute</h3>
-            <p>Deva Computer Institute is a premier education center dedicated to providing high-quality IT training. We focus on practical skills to help students get job-ready in the modern digital world.</p>
+            <p>Deva Computer Institute is a premier education center dedicated to providing high-quality IT training.</p>
         </div>
         <div class="footer-section">
             <h3>Contact Address</h3>
             <p>📍 Dandkarwan, 11 Nomber, Ramkola Road<br>Chattisgarh, Surajpur -497229 </p>
-            <p>📞 Phone/WhatsApp: +91 8435725294<br>📧 Devk07472@gmail.com</p>
+            <p>📞 Phone/WhatsApp: +91 8435725294</p>
         </div>
-    </div>
-    <div style="text-align:center; margin-top:30px; opacity:0.6; font-size:0.9rem; border-top:1px solid #444; padding-top:20px;">
-        &copy; 2026 DEVA Computer Institute. All Rights Reserved.
     </div>
 </footer>
 
 <script>
-    // Sidebar Control
+    const MY_NUMBER = "918435725294";
+
     function openNav() { document.getElementById("mySidebar").style.width = "280px"; }
     function closeNav() { document.getElementById("mySidebar").style.width = "0"; }
 
-    // Show Course Details
+    function toggleSection(sectionId) {
+        closeNav();
+        const sections = ['home-section', 'course-details', 'form-section', 'exam-section', 'test-login-section', 'quiz-section'];
+        sections.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.style.display = (id === sectionId) ? 'block' : 'none';
+        });
+        window.scrollTo(0, 0);
+    }
+
     function showDetails(name, fees, dur, desc) {
-        document.getElementById('form-section').style.display = 'none';
-        let box = document.getElementById('course-details');
-        box.style.display = 'block';
+        toggleSection('course-details');
         document.getElementById('c-name').innerText = name;
         document.getElementById('c-fees').innerText = fees;
         document.getElementById('c-dur').innerText = dur;
         document.getElementById('c-desc').innerText = desc;
-        box.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Toggle Registration Form
-    function toggleForm() {
-        closeNav();
-        document.getElementById('course-details').style.display = 'none';
-        let form = document.getElementById('form-section');
-        form.style.display = 'block';
-        form.scrollIntoView({ behavior: 'smooth' });
+    // Quiz Questions Data
+    const quizData = [
+        { q: "MS Word mein New File kholne ki shortcut key kya hai?", a: "Ctrl + N", o: ["Ctrl + N", "Ctrl + O", "Ctrl + S", "Ctrl + P"] },
+        { q: "MS Excel mein total kitne Columns hote hain?", a: "16384", o: ["16384", "1024", "256", "65536"] },
+        { q: "PowerPoint mein slide show shuru karne ke liye konsi key dabate hain?", a: "F5", o: ["F1", "F2", "F5", "F7"] },
+                { q: "HTML Se Ham Kya bana sakte hain", a: "website", o: ["peda", "website", "Software", "Chai"] },
+
+        { q: "Tally mein 'Contra Entry' ke liye konsi shortcut key hai?", a: "F4", o: ["F4", "F5", "F6", "F7"] },
+        { q: "MS Excel mein cell address kahan dikhai deta hai?", a: "Name Box", o: ["Formula Bar", "Name Box", "Status Bar", "Title Bar"] }
+    ];
+
+    function startTest() {
+        const name = document.getElementById('test_name').value;
+        const father = document.getElementById('test_father').value;
+        if (!name || !father) { alert("Naam aur Pita ka naam bhariye!"); return; }
+
+        toggleSection('quiz-section');
+        const container = document.getElementById('questions-container');
+        container.innerHTML = "";
+
+        quizData.forEach((item, index) => {
+            let optionsHTML = item.o.map(opt => `
+                <label>
+                    <input type="radio" name="q${index}" value="${opt}"> ${opt}
+                </label>
+            `).join("");
+
+            container.innerHTML += `
+                <div class="question-box">
+                    <p>${index + 1}. ${item.q}</p>
+                    <div class="options">${optionsHTML}</div>
+                </div>
+            `;
+        });
     }
 
-    // WhatsApp Notification
-    function sendToWhatsApp() {
-        let name = document.getElementById('s_name').value
-        let phone = document.getElementById('s_phone').value;
-        let course = document.getElementById('s_course').value;
-        let myNumber = "918435725294"; // <--- APNA NUMBER YAHAN DAALEIN
+    function submitQuiz() {
+        let score = 0;
+        let total = quizData.length;
+        const name = document.getElementById('test_name').value;
+        const father = document.getElementById('test_father').value;
 
-        if(name == "" || phone == "") { alert("Details bhariye!"); return; }
+        quizData.forEach((item, index) => {
+            const selected = document.querySelector(`input[name="q${index}"]:checked`);
+            if (selected && selected.value === item.a) {
+                score++;
+            }
+        });
 
-        let msg = `*NEW ADMISSION*%0A*Student Name:* ${name}%0A*Father Name:* ${name}%0A*Address:* ${name}%0A*Contact Number:* ${phone}%0A*Course:* ${course}`;
-        window.open(`https://wa.me/${myNumber}?text=${msg}`, '_blank');
+        const wrong = total - score;
+        alert(`Test Completed! Score: ${score}/${total}`);
+
+        let msg = `*ONLINE TEST RESULT*%0A*Student:* ${name}%0A*Father:* ${father}%0A*Total Questions:* ${total}%0A*Correct:* ${score}%0A*Wrong:* ${wrong}%0A*Final Marks:* ${score}`;
+        window.open(`https://wa.me/${MY_NUMBER}?text=${msg}`, '_blank');
+        location.reload();
     }
 
-    // Floating Bubbles
+    function sendAdmissionToWA() {
+        let name = document.getElementById('adm_name').value;
+        let father = document.getElementById('adm_father').value;
+        let phone = document.getElementById('adm_phone').value;
+        let course = document.getElementById('adm_course').value;
+        if(!name || !phone) { alert("Details bhariye!"); return; }
+        let msg = `*NEW ADMISSION*%0A*Student:* ${name}%0A*Father:* ${father}%0A*Contact:* ${phone}%0A*Course:* ${course}`;
+        window.open(`https://wa.me/${MY_NUMBER}?text=${msg}`, '_blank');
+    }
+
+    function sendExamToWA() {
+        let name = document.getElementById('ex_name').value;
+        let roll = document.getElementById('ex_roll').value;
+        let course = document.getElementById('ex_course').value;
+        let phone = document.getElementById('ex_phone').value;
+        if(!name || !phone) { alert("Details bhariye!"); return; }
+        let msg = `*EXAM FORM*%0A*Student:* ${name}%0A*Roll:* ${roll}%0A*Course:* ${course}%0A*Contact:* ${phone}`;
+        window.open(`https://wa.me/${MY_NUMBER}?text=${msg}`, '_blank');
+    }
+
+    // Bubbles
     function createBubble() {
         const container = document.querySelector('.bubbles');
         const b = document.createElement('div');
