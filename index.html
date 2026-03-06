@@ -6,7 +6,7 @@
    <meta name="google-site-verification" content="GyXRV8I-w9psY8tf1BDGm5JzzfSo1ACiOs_hHO1taYw" />
     <title>Deva Computer Institute - In Dandkarwan</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
         body { 
             font-family: 'Poppins', sans-serif; 
@@ -101,6 +101,8 @@
     <a onclick="location.reload()">🏠 Home</a>
     <a onclick="toggleSection('form-section')">📝 Student Registration</a>
     <a onclick="toggleSection('exam-section')">🎓 Exam Form</a>
+    <a ="Assign.html">📖 Coming soon</a>
+    <a onclick="toggleSection('assignment-complete-section')">✅ Assignment Answer</a>
     <a onclick="toggleSection('test-login-section')">✍️ Online Test</a>
 </div>
 
@@ -126,6 +128,14 @@
             <button class="course-btn" onclick="showDetails('TALLY PRIME', '₹8,000', '6 Month', 'Output Type, Input Type, Salary Payment, Types Of GST, SGST,CGST,IGST, and Debit, Credit.')">5. Tally Prime With GST (TALLY PRIME) <span>➜</span></button>
         </div>
     </div>
+
+    <section id="assignment-complete-section">
+        <h2 style="text-align: center; color: #1e3c72;">Assignment Verification</h2>
+        <p style="text-align:center;">Aage badhne ke liye apni details bharein.</p>
+        <input type="text" id="asgn_student_name" placeholder="Name">
+        <input type="text" id="asgn_owner_name" placeholder="Owner Code (sarthi jii)">
+        <button type="button" onclick="verifyAssignment()" class="btn-action" style="background: #27ae60;">Submit & View Assignments</button>
+    </section>
 
     <section id="course-details">
         <h2 id="c-name" style="color:#1e3c72; margin-top:0;"></h2>
@@ -169,8 +179,7 @@
 
     <section id="quiz-section">
         <h2 style="text-align: center; color: #1e3c72;">Computer Quiz (MS Office & Tally)</h2>
-        <div id="questions-container">
-            </div>
+        <div id="questions-container"></div>
         <button type="button" onclick="submitQuiz()" class="btn-action" style="background: #27ae60;">Submit My Answers</button>
     </section>
 </div>
@@ -197,12 +206,31 @@
 
     function toggleSection(sectionId) {
         closeNav();
-        const sections = ['home-section', 'course-details', 'form-section', 'exam-section', 'test-login-section', 'quiz-section'];
+        // Naye section 'assignment-complete-section' ko yahan list mein add kiya gaya hai
+        const sections = ['home-section', 'course-details', 'form-section', 'exam-section', 'test-login-section', 'quiz-section', 'assignment-complete-section'];
         sections.forEach(id => {
             const el = document.getElementById(id);
             if (el) el.style.display = (id === sectionId) ? 'block' : 'none';
         });
         window.scrollTo(0, 0);
+    }
+
+    // Naya Function: Assignment ki janch ke liye
+    function verifyAssignment() {
+        const studentName = document.getElementById('asgn_student_name').value;
+        const ownerName = document.getElementById('asgn_owner_name').value;
+
+        if(!studentName) {
+            alert("Kripya Student Name bhariye!");
+            return;
+        }
+
+        if(ownerName === "sarthi jii") {
+            alert("Verification Successful! Khul raha hai...");
+            window.location.href = "Assign.html"; // Assignment page khul jayega
+        } else {
+            alert("Galat Owner Name! Jab tak aap 'sarthi jii' nahi likhenge, aage nahi badh sakte.");
+        }
     }
 
     function showDetails(name, fees, dur, desc) {
@@ -213,13 +241,11 @@
         document.getElementById('c-desc').innerText = desc;
     }
 
-    // Quiz Questions Data
     const quizData = [
         { q: "MS Word mein New File kholne ki shortcut key kya hai?", a: "Ctrl + N", o: ["Ctrl + N", "Ctrl + O", "Ctrl + S", "Ctrl + P"] },
         { q: "MS Excel mein total kitne Columns hote hain?", a: "16384", o: ["16384", "1024", "256", "65536"] },
         { q: "PowerPoint mein slide show shuru karne ke liye konsi key dabate hain?", a: "F5", o: ["F1", "F2", "F5", "F7"] },
-                { q: "HTML Se Ham Kya bana sakte hain", a: "website", o: ["peda", "website", "Software", "Chai"] },
-
+        { q: "HTML Se Ham Kya bana sakte hain", a: "website", o: ["peda", "website", "Software", "Chai"] },
         { q: "Tally mein 'Contra Entry' ke liye konsi shortcut key hai?", a: "F4", o: ["F4", "F5", "F6", "F7"] },
         { q: "MS Excel mein cell address kahan dikhai deta hai?", a: "Name Box", o: ["Formula Bar", "Name Box", "Status Bar", "Title Bar"] }
     ];
@@ -257,9 +283,7 @@
 
         quizData.forEach((item, index) => {
             const selected = document.querySelector(`input[name="q${index}"]:checked`);
-            if (selected && selected.value === item.a) {
-                score++;
-            }
+            if (selected && selected.value === item.a) { score++; }
         });
 
         const wrong = total - score;
@@ -299,7 +323,7 @@
         b.style.width = b.style.height = size + 'px';
         b.style.left = Math.random() * 100 + '%';
         b.style.animationDuration = (Math.random() * 10 + 8) + 's';
-        container.appendChild(b);
+        if(container) container.appendChild(b);
         setTimeout(() => b.remove(), 15000);
     }
     setInterval(createBubble, 1500);
